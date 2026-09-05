@@ -1,9 +1,9 @@
 ---
 name: paper-mode
-description: 论文模式：中文学术论文 AIGC/AI 生成痕迹自查与降率改写。当用户要求检查论文 AI 率/AIGC 率、把论文改成不像 AI 写的、按知网检测的语言特征估算 AI 比例、给出逐段降 AI 率修改意见，或处理 Word/PDF/粘贴的论文文稿时使用。估算结果不是知网/维普官方检测，仅作自查参考。
-description_en: "Detect AI/AIGC traces in Chinese academic papers and rewrite them to read naturally. Use when the user asks to check an AI-generation ratio, estimate AIGC percentage from CNKI-style linguistic features, get paragraph-level revision suggestions, or reduce the AI flavor of a thesis draft. Estimates are not official CNKI/VIP results."
-version: "0.1.0"
-agent_created: true
+description: '论文模式：中文学术论文 AIGC/AI 生成痕迹自查与降率改写。按知网检测的语言特征估算 AI 率、给出逐段修改意见并迭代改写，支持粘贴文本或 Word/PDF 文稿。触发词：检查论文 AI 率、论文 AIGC 检测、AI 率是多少、降 AI 率、改成不像 AI 写的、论文 AI 痕迹、论文润色降重、知网查重前自查。估算结果不是知网/维普官方检测，仅作自查参考。'
+description_zh: 论文 AI 痕迹检测与降率改写助手
+description_en: Detect and humanize AI-flavored Chinese academic papers (estimates only)
+display_name: 论文模式
 ---
 
 # 论文模式（paper-mode）· WorkBuddy 版
@@ -17,6 +17,16 @@ agent_created: true
 - 用户提供中文学术论文（本科/硕博论文、期刊稿）全文或段落，要求**检测 AI 生成痕迹 / 估算 AI 率 / AIGC 率**；
 - 要求**逐段给出修改意见**，或**改写**让文本不像 AI 写的；
 - 输入形态：粘贴文本、或工作区/上传的 Word(.docx)/PDF 等文稿。
+
+## 快速开始（示例用法）
+
+直接向 WorkBuddy 描述需求即可自动匹配本技能，例如：
+
+- "帮我检查这篇论文的 AI 率，目标降到 10% 以下"
+- "下面这段太像 AI 写的了，帮我改得更自然：<粘贴段落>"
+- "读一下工作区的 paper.docx，先出 AI 痕迹检测报告和修改意见，我确认后再改"
+
+收到文本后按「工作流」执行；首次交付先给估算报告与修改意见清单，用户确认后才逐段改写，避免一次大改全文。
 
 ## 核心约束（红线，违反视为失败）
 
@@ -127,8 +137,9 @@ agent_created: true
 ## 能力协商（按宿主能力自动降级，勿编造能力）
 
 - **文件输入**：宿主能读工作区/上传文档就直接读；否则请用户粘贴文本，或把文件放进工作目录让宿主读取；实在读不了就如实说明。
-- **文档解析**：若宿主环境可运行 `python3` 且本技能目录含 `scripts/`，可用 `scripts/office_extract.py <文件>` 提取 docx/pptx/xlsx、`scripts/pdf_to_text.py <pdf>` 提取 PDF；不可运行则依赖宿主自带解析。
-- **信号扫描脚本**：`scripts/ai_signal.py <文本文件>` 可作确定性辅助扫描；无 python 环境时按上方速查表人工逐块判定即可（脚本只出证据，不替代判定）。
+- **文档解析**：若宿主环境可运行 `python3` 且本技能目录含 `scripts/`，优先用脚本提取文本——docx/pptx/xlsx 用 `scripts/office_extract.py <文件> [out.txt]`，docx 结构化原文用 `scripts/docx_extract.py <docx> [out.txt]`，PDF 文字版用 `scripts/pdf_to_text.py <paper.pdf> [out.txt]`（需 pypdf 或 pdftotext），公式/图表/扫描件可用 `scripts/pdf_to_images.swift <pdf> <outdir> [width]` 转 PNG（macOS）。不可运行脚本时依赖宿主自带解析。
+- **信号扫描脚本**：`scripts/ai_signal.py <文本或docx>` 可作确定性辅助扫描（150–450 字分块输出句长节奏/连接词/套话等证据）；无 python 环境时按上方速查表人工逐块判定即可（脚本只出证据，不替代判定）。
+- **定稿导出**：`scripts/docx_write.py <定稿.txt> <输出.docx>` 可把定稿**逐字**装回 .docx（支持 `#` 标题与 `**加粗**`）；导出后可用 `office_extract.py` 回读复核。
 - **联网检索**：有则用于阶段 0 引述核验；没有则明示"未联网核验"。
 - **子代理/多会话**：宿主支持多 agent 时，复查轮尽量由不携带改写记录的新会话独立再估算；不支持时，可建议用户把改写后文本**另开新会话**让第二位 AI 盲评，避免"改写着自测"的乐观偏差。
 - **文档导出**：宿主能生成 Word 才导出 .docx（仅原样装订）；否则交付文本由用户自贴。
