@@ -26,7 +26,9 @@ metadata:
   写新段落按第四节的预防性规则；改写按第五节策略；交付前过第六节自检表。
 - **计划优先（硬性）**：执行任何检测/改写前，先给用户一份清晰计划——目标比例、拟处理的高危段落清单、采用的策略要点、预期改动；**等用户确认后再动手**。批量或多段改写尤须如此，绝不一次性大改全文。
 
-## 1. 输入处理（技能目录 `~/.dsh/skills/paper-mode/`）
+## 1. 输入处理
+
+> **路径约定（符合 DSH skill 规范）**：下文所有 `scripts/…`、`references/…` 均为**相对本技能根目录**（SKILL.md 所在目录）的路径。DSH 加载技能时会给出该技能的资源基准目录（resourceBase，kind: directory），相对引用一律按基准目录解析——因此本技能安装于官方扫描根目录中的任何位置（用户级 `<dshHome>/skills`、项目级 `<projectRoot>/.dsh/skills` 或 `~/.agents/skills` 等，见仓库 README「发现根目录与优先级」）均可直接使用，无需改写路径。
 
 - **用户通过上传插件拖入的文件**：`dsh-file-upload` 插件把上传的文档存到**会话工作区**的
   `.dsh-uploads/<sessionId>/` 下，消息里以 `@相对路径` 引用；Agent 可优先用宿主提供的
@@ -34,14 +36,14 @@ metadata:
   支持 offset/limit 分页），再结合本技能脚本判断；也可直接用本脚本提取文本。
 - **粘贴文本**：直接使用。长文让用户按章节或每 ≤800 字分批，或一次性给出后自行切块。
 - **Word / PPT / Excel**：统一用提取脚本（docx/pptx/xlsx 均支持，零依赖）：
-  - `python3 ~/.dsh/skills/paper-mode/scripts/office_extract.py <文件.docx|.pptx|.xlsx> [out.txt]`
-  - 得到文本后再喂给信号扫描：`python3 ~/.dsh/skills/paper-mode/scripts/ai_signal.py <out.txt|文档>`
-- **docx 原文查看**（保留）：`python3 ~/.dsh/skills/paper-mode/scripts/docx_extract.py <docx> [out.txt]`
+  - `python3 scripts/office_extract.py <文件.docx|.pptx|.xlsx> [out.txt]`
+  - 得到文本后再喂给信号扫描：`python3 scripts/ai_signal.py <out.txt|文档>`
+- **docx 原文查看**（保留）：`python3 scripts/docx_extract.py <docx> [out.txt]`
 - **PDF（无原生导入，二选一）**：
-  - **文字版（推荐，扫描最准）**：`python3 ~/.dsh/skills/paper-mode/scripts/pdf_to_text.py <paper.pdf> [out.txt]`
+  - **文字版（推荐，扫描最准）**：`python3 scripts/pdf_to_text.py <paper.pdf> [out.txt]`
     后端按 pypdf → pdftotext 回退；两者缺失会提示安装（`pip3 install pypdf` 或 `brew install poppler`），或改走视觉版。文本再送 `ai_signal.py`。
   - **视觉版（零安装，适合公式/图表/扫描件）**：
-    `swift -Xcc -fmodules-cache-path="<可写目录>" ~/.dsh/skills/paper-mode/scripts/pdf_to_images.swift <paper.pdf> <outdir> [width]`
+    `swift -Xcc -fmodules-cache-path="<可写目录>" scripts/pdf_to_images.swift <paper.pdf> <outdir> [width]`
     生成 `outdir/page-001.png...` 后，用视觉模型 `read_image` 逐页读文字/公式/图表，再结合文字管线判定。
     （直接 `swift` 若报写缓存目录被拒，就加 `-Xcc -fmodules-cache-path=<可写目录>`。）
   - **有 Word 原件（.docx）更推荐**：直接用 docx 管线，不绕 PDF。
@@ -68,7 +70,7 @@ metadata:
 
 **执行方式（硬性）**：每次 AI 率估算——首次检测与阶段 C 的每轮复查重测——都用 `subagent` 开一个**不带对话历史的全新子 agent** 完成本阶段全部工作；**禁止**主 agent 自行估算全文 AI 率，**禁止**用 `subagent_fork` 让子 agent 继承本会话上下文。
 
-- **任务包自包含**：子 agent 看不到本会话历史，其 prompt 必须自带：输入来源（粘贴的论文全文，或工作区文件路径 + 提取/扫描脚本命令；建议先把待检全文落盘为工作区 .txt，让子 agent 用 `read` 读文件再跑 `ai_signal.py`）、信号库路径 `~/.dsh/skills/paper-mode/references/aigc_signals_zh.md`（要求其先 `read`）、`python3 ~/.dsh/skills/paper-mode/scripts/ai_signal.py <文件>` 运行命令、下方逐块判定标准、下方报告格式模板，以及"估算非官方结果"的声明要求。
+- **任务包自包含**：子 agent 看不到本会话历史，其 prompt 必须自带：输入来源（粘贴的论文全文，或工作区文件路径 + 提取/扫描脚本命令；建议先把待检全文落盘为工作区 .txt，让子 agent 用 `read` 读文件再跑 `ai_signal.py`）、信号库路径 `references/aigc_signals_zh.md`（要求其先 `read`）、`python3 scripts/ai_signal.py <文件>` 运行命令、下方逐块判定标准、下方报告格式模板，以及"估算非官方结果"的声明要求。
 - **判定依据只给方法不给结论**：prompt 只提供信号库、脚本输出与判定标准，**不提供**主会话此前的风险判定、改写记录或旧估算值（复查轮次可提供"上一版报告供对照引用"，但子 agent 必须先独立判定后自行决定是否引用，主 agent 不得预置结论）。
 - **结果回收**：子 agent 返回完整报告后，主 agent 照录呈现（可在格式上整理），需要追问其判定依据时用 `send_message`；主 agent 不对报告数值做二次"目测修正"，如实转述即可。
 
@@ -128,7 +130,7 @@ metadata:
 
 1. **硬约束自检（每段+全文，参考库第六节）**：AI 高频词每段 ≤2？段末套句全文 ≤1？三元并列每段 ≤1？"基于XX理论"起笔 ≤20% 段落？泛化结尾 =0？模糊归因 =0？加粗 ≤5 处？——全达标才算过。
 2. **噪声预算（参考库第七节）**：是否保留了 2–3 处轻微 AI 特征、没有过度均质化？同时复核：事实数字未变？术语未动？无新增编造？仍是学术语体？
-3. 对改写后文本**重跑信号扫描**：`python3 ~/.dsh/skills/paper-mode/scripts/ai_signal.py <改后文件>`，与改写前对比。
+3. 对改写后文本**重跑信号扫描**：`python3 scripts/ai_signal.py <改后文件>`，与改写前对比。
 4. **重新估算 AI 率**：本步同样**再开一个全新子 agent** 独立检测改写后文本（任务包写法与判定标准见第 2 节，不携带本会话历史与改写记录）；拿到新旧两份独立报告后并排对比，如实汇报新估算值与差距；未达标则列出剩余高危段落继续迭代（每轮只改当前最红的段落）。
 5. 达标（估算 ≤ 目标）后输出总结：改动段数/总字符、命中特征消除情况、估算前后对比、自查结论，并提醒：**务必上知网等官方平台实测**；把标红段落回传后进入二次精修。
 
@@ -136,7 +138,7 @@ metadata:
 
 - 逐段修改意见与改写结果在对话内以"原文 → 改写文 → 改动说明"呈现；
 - **精确保留导出 Word（关键）**：把改好的定稿原样装进 .docx，绝不重写内容：
-  `python3 ~/.dsh/skills/paper-mode/scripts/docx_write.py <定稿.txt> <输出.docx>`
+  `python3 scripts/docx_write.py <定稿.txt> <输出.docx>`
   （数字/术语/公式/引号逐字保留，支持 `#` 标题与 `**加粗**`；导出后用 office_extract 回读可复核逐字一致。）
 - **不要**用 walioffice 插件的 `doc_generate` 导这篇定稿——它会按主题**重写**成一篇新文章，
   数字、术语、你刚改好的表述全会被改掉。walioffice（doc/sheet/ppt_generate）只用于**从零生成**办公产物
