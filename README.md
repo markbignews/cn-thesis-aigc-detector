@@ -117,12 +117,29 @@ cn-thesis-aigc-detector/          ← 安装为 <root>/paper-mode/
 ├── docs/
 │   └── thesis_workflow_zh.md     # 闭环流程方法论
 ├── workbuddy/                    # WorkBuddy 适配版技能包（paper-mode/ + 上架用 zip，见 workbuddy/README.md）
+├── generic/
+│   └── paper-mode/               # 通用版技能包（平台无关，供 Codex/Claude Code 等支持 SKILL.md 的宿主）
 └── README.md / LICENSE / .gitignore   # 仓库级文件（不影响技能发现）
 ```
 
 说明：官方发现只认扫描根**顶层**的 `<name>/SKILL.md` 与 `<name>.md`；bundle 内的 `docs/`、`README.md`、`LICENSE` 等仓库级文件不会被当作 skill，也不影响目录。
 
-仓库根 `SKILL.md`（DSH 版）与 `workbuddy/paper-mode/SKILL.md`（WorkBuddy 版）为**同源同步**的两个平台版本：方法论、红线、信号库（`references/`、`docs/`、`scripts/` 为同一份内容）完全一致，正文只按各自平台机制编写。
+仓库根 `SKILL.md`（DSH 版）、`workbuddy/paper-mode/SKILL.md`（WorkBuddy 版）与 `generic/paper-mode/SKILL.md`（通用版）为**同源同步**的三个平台版本：方法论、红线、信号库（`references/`、`docs/`、`scripts/` 为同一份内容）完全一致，正文只按各自平台机制编写。
+
+### 通用版（Codex / Claude Code 等宿主）
+
+`generic/paper-mode/` 是**平台无关**正文：不绑定任何宿主专有工具名，支持子代理的宿主走"角色A 引述核查 + 角色B 独立检测"双角色并行（正文含可直接誊抄为宿主自定义 agent 的角色卡与机制映射表），无子代理的宿主自动降级为单 agent + 新会话盲评。
+
+安装示例（把技能目录名保持为 `paper-mode`）：
+
+```bash
+# Codex（skills 特性未开启时先在 ~/.codex/config.toml 加 [features] skills = true；技能在启动时扫描，改正文需重启）
+cp -R generic/paper-mode ~/.codex/skills/paper-mode
+# Claude Code 等
+cp -R generic/paper-mode ~/.claude/skills/paper-mode
+```
+
+Codex 多 agent 适配要点（详见通用版正文「宿主机制映射」）：Codex（≥v0.121 形态）提供 `spawn_agent`（`fork_turns: "none"` = 全新上下文，对应 DSH 的 `subagent`）、`send_message`/`followup_task`/`wait_agent`、自定义 agent（`~/.codex/agents/*.toml` 或技能内 `agents/`）与 `[agents] max_threads` 并行上限——机制上与论文模式的角色分离、派发策略（4–6 并发、深度 1）一一对应；但子代理需显式要求才派出、审批/沙箱在并行线程间会产生交互摩擦、技能只在启动时扫描，因此是"机制等价 + 需要一份适配配置"，不是零改动的完美平移（无子代理或希望省资源的场景直接走降级模式）。
 
 ## 三、脱离 DSH：命令行直接使用
 
