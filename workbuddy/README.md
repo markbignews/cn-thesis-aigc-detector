@@ -2,9 +2,9 @@
 
 本目录是论文模式技能（paper-mode）为 **WorkBuddy（腾讯办公智能体）** 适配的版本，存放于 `~/.workbuddy/skills/<技能名>/SKILL.md` 的约定目录结构下。
 
-> 本仓库（cn-thesis-aigc-detector）是该技能的**唯一上游**：仓库根 `SKILL.md` 为 DeepSeek Harness（DSH）专用版，本目录为 WorkBuddy 适配版（含可直接上传的 `paper-mode-skillhub.zip`）。此前单独发布的独立仓库已并入本仓库，请勿再按旧地址安装。
+> 本仓库（cn-thesis-aigc-detector）是该技能**跨平台版本与方法论**仓库：本目录为 WorkBuddy 适配版（含可直接上传的 `paper-mode-skillhub.zip`），`../generic/paper-mode/` 为通用版；DeepSeek Harness（DSH）版技能包在**独立仓库** [markbignews/dsh-paper-mode](https://github.com/markbignews/dsh-paper-mode)（DSH 版唯一真源）。此前单独发布的旧仓库已并入，请勿再按旧地址安装。
 
-> ⚠️ **版本状态（请先阅读）**：本版按 WorkBuddy 技能约定与社区教程（[WorkBuddy 技能系统深度指南](https://cloud.tencent.com.cn/developer/article/2693324)、[WorkBuddy Skill 制作实操指南](https://cloud.tencent.com.cn/developer/article/2725219)）做格式与流程适配，**未经真实 WorkBuddy 运行环境实测**；原版仅针对 DeepSeek Harness 开发与测试。使用中发现偏差，按 `paper-mode/SKILL.md` 末尾「能力协商」自行调整即可。
+> ⚠️ **版本状态（请先阅读）**：本版按 WorkBuddy 技能约定与社区教程（[WorkBuddy 技能系统深度指南](https://cloud.tencent.com.cn/developer/article/2693324)、[WorkBuddy Skill 制作实操指南](https://cloud.tencent.com.cn/developer/article/2725219)）做格式与流程适配，**未经真实 WorkBuddy 运行环境实测**；DSH 原版仅针对 DeepSeek Harness 开发与测试（见 [markbignews/dsh-paper-mode](https://github.com/markbignews/dsh-paper-mode)）。使用中发现偏差，按 `paper-mode/SKILL.md` 末尾「能力协商」自行调整即可。
 > 与本仓库其他部分一样：输出为基于知网 AIGC 语言特征的**估算**，非官方检测结果；仅限合规自查与润色用途，不得用于规避官方检测、掩盖代写或学术不端。
 
 ## 目录

@@ -8,7 +8,7 @@ display_name: 论文模式
 
 # 论文模式（paper-mode）· WorkBuddy 版
 
-> **运行说明**：本文件是为 **WorkBuddy（腾讯办公智能体）** 适配的技能版本，按 WorkBuddy 技能约定（`~/.workbuddy/skills/<name>/SKILL.md`）编写。原版技能为 DeepSeek Harness 专用（见 GitHub 仓库 markbignews/cn-thesis-aigc-detector）；本版与 DSH 版**同版方法论同步**（流程、红线、信号库、自检表、噪声预算一致），仅在格式与执行机制上做平台适配，但**未经真实 WorkBuddy 运行环境实测**，使用中发现偏差请按本文件末尾「能力协商」自行调整。
+> **运行说明**：本文件是为 **WorkBuddy（腾讯办公智能体）** 适配的技能版本，按 WorkBuddy 技能约定（`~/.workbuddy/skills/<name>/SKILL.md`）编写。原版技能为 DeepSeek Harness 专用（见 GitHub 仓库 markbignews/dsh-paper-mode）；本版与 DSH 版**同版方法论同步**（流程、红线、信号库、自检表、噪声预算一致），仅在格式与执行机制上做平台适配，但**未经真实 WorkBuddy 运行环境实测**，使用中发现偏差请按本文件末尾「能力协商」自行调整。
 
 把中文学术论文的 AI/AIGC 痕迹检查与降率改写做成一个闭环：**引述核查（先行）→ 独立 AI 率检测 → 逐段修改意见 → 确认改写 → 复查循环**，直到全文估算 AI 率 ≤ 用户指定的目标比例（每次运行时确认，默认 ≤10%）。
 
