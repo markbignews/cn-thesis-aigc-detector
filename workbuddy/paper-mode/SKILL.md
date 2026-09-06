@@ -1,5 +1,6 @@
 ---
 name: paper-mode
+version: 2.4.0
 description: '论文模式：中文学术论文 AIGC/AI 生成痕迹自查与降率改写。按知网检测的语言特征估算 AI 率、给出逐段修改意见并迭代改写，支持粘贴文本或 Word/PDF 文稿。触发词：检查论文 AI 率、论文 AIGC 检测、AI 率是多少、降 AI 率、改成不像 AI 写的、论文 AI 痕迹、论文润色降重、知网查重前自查。估算结果不是知网/维普官方检测，仅作自查参考。'
 description_zh: 论文 AI 痕迹检测与降率改写助手
 description_en: Detect and humanize AI-flavored Chinese academic papers (estimates only)
