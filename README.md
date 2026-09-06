@@ -24,13 +24,15 @@ cn-thesis-aigc-detector/
 ├── references/
 │   ├── aigc_signals_zh.md        # 信号库 v2：五维信号（L1–L5）、8 条预防性规则、11 条修复策略、自检表、噪声预算
 │   └── duplicate_check_zh.md     # 查重参考库：机制口径、报告指标解读、降重策略、与降 AI 率协同（估算非官方）
-├── scripts/                      # 六个零依赖脚本（python3 ≥3.8 标准库即可运行；swift 需 macOS）
+├── scripts/                      # 八个零依赖工具（python3 ≥3.8 标准库即可运行；swift 需 macOS）
 │   ├── ai_signal.py              # 信号扫描（.docx/.txt/.md/stdin）
 │   ├── office_extract.py         # docx/pptx/xlsx 统一提取
 │   ├── docx_extract.py           # docx 结构化原文提取
 │   ├── docx_write.py             # 定稿精确导出 .docx
 │   ├── pdf_to_text.py            # PDF 文字版提取（可选装 pypdf/pdftotext）
-│   └── pdf_to_images.swift       # PDF 逐页转 PNG（视觉版）
+│   ├── pdf_to_images.swift       # PDF 逐页转 PNG（视觉版）
+│   ├── faith_check.py            # 定稿保真机检（终审前必跑）
+│   └── check_sync.py             # 三平台同步校验门禁
 ├── samples/                      # 演示样例（sample_ai_style.txt / .docx）
 ├── docs/
 │   └── thesis_workflow_zh.md     # 闭环流程方法论（从拿到论文到交付定稿）
