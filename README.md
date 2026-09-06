@@ -22,7 +22,8 @@ paper-mode（论文模式）技能：检测中文学术论文的 AI/AIGC 生成�
 ```
 cn-thesis-aigc-detector/
 ├── references/
-│   └── aigc_signals_zh.md        # 信号库 v2：五维信号（L1–L5）、8 条预防性规则、11 条修复策略、自检表、噪声预算
+│   ├── aigc_signals_zh.md        # 信号库 v2：五维信号（L1–L5）、8 条预防性规则、11 条修复策略、自检表、噪声预算
+│   └── duplicate_check_zh.md     # 查重参考库：机制口径、报告指标解读、降重策略、与降 AI 率协同（估算非官方）
 ├── scripts/                      # 六个零依赖脚本（python3 ≥3.8 标准库即可运行；swift 需 macOS）
 │   ├── ai_signal.py              # 信号扫描（.docx/.txt/.md/stdin）
 │   ├── office_extract.py         # docx/pptx/xlsx 统一提取

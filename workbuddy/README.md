@@ -14,6 +14,7 @@ workbuddy/
 ├── paper-mode/                    ← 技能包：复制为 ~/.workbuddy/skills/paper-mode/
 │   ├── SKILL.md                   # 技能正文（frontmatter: name/description/description_zh/description_en/display_name，对齐技能市场格式）
 │   ├── references/aigc_signals_zh.md   # 信号库（与仓库根同源同一份）
+│   ├── references/duplicate_check_zh.md   # 查重参考库（与仓库根同源同一份）
 │   ├── docs/thesis_workflow_zh.md      # 流程方法论（与仓库根同源同一份）
 │   └── scripts/                   # 可选加速脚本（环境可运行 python3 时使用）
 └── paper-mode-skillhub.zip        # 上架/App 内导入用（内容与 paper-mode/ 一致，随仓库更新）
