@@ -103,23 +103,26 @@ rm -rf ~/.dsh/skills/paper-mode     # （项目级安装则删除对应目录）
 
 ```
 cn-thesis-aigc-detector/          ← 安装为 <root>/paper-mode/
-├── SKILL.md                      # 技能正文：frontmatter（name/description/whenToUse/metadata）+ 指令
+├── SKILL.md                      # 技能正文（DSH 版）：frontmatter（name/description/whenToUse/metadata）+ 指令
 ├── references/
 │   └── aigc_signals_zh.md        # 信号库 v2：判定与改写的依据（按需相对引用加载）
-├── scripts/                      # 六个脚本，零第三方依赖（python3 ≥3.8 标准库；swift 需 macOS）
+├── scripts/                      # 六个脚本（python3 ≥3.8 标准库即可运行；swift 需 macOS）
 │   ├── ai_signal.py              # 信号扫描（.docx/.txt/.md/stdin）
 │   ├── office_extract.py         # docx/pptx/xlsx 统一提取
 │   ├── docx_extract.py           # docx 结构化原文提取
 │   ├── docx_write.py             # 定稿精确导出 .docx
-│   ├── pdf_to_text.py            # PDF 文字版提取
+│   ├── pdf_to_text.py            # PDF 文字版提取（可选装 pypdf/pdftotext；缺省输出引导）
 │   └── pdf_to_images.swift       # PDF 逐页转 PNG（视觉版）
 ├── samples/                      # 演示样例（sample_ai_style.txt / .docx）
 ├── docs/
 │   └── thesis_workflow_zh.md     # 闭环流程方法论
-├── README.md / LICENSE / .gitignore   # 仓库级文件（不影响技能发现）
+├── workbuddy/                    # WorkBuddy 适配版技能包（paper-mode/ + 上架用 zip，见 workbuddy/README.md）
+└── README.md / LICENSE / .gitignore   # 仓库级文件（不影响技能发现）
 ```
 
 说明：官方发现只认扫描根**顶层**的 `<name>/SKILL.md` 与 `<name>.md`；bundle 内的 `docs/`、`README.md`、`LICENSE` 等仓库级文件不会被当作 skill，也不影响目录。
+
+仓库根 `SKILL.md`（DSH 版）与 `workbuddy/paper-mode/SKILL.md`（WorkBuddy 版）为**同源同步**的两个平台版本：方法论、红线、信号库（`references/`、`docs/`、`scripts/` 为同一份内容）完全一致，正文只按各自平台机制编写。
 
 ## 三、脱离 DSH：命令行直接使用
 
@@ -155,7 +158,7 @@ python3 scripts/ai_signal.py samples/sample_ai_style.txt
 
 ## 开源许可与致谢
 
-[MIT](LICENSE) © markbignews，2025。
+[MIT](LICENSE) © markbignews，2026。
 
 方法论与判定信号在实战中参考并整合了以下 MIT 开源项目的经验（详见 `references/aigc_signals_zh.md` 第十节）：
 
