@@ -162,6 +162,6 @@ python3 scripts/ai_signal.py samples/sample_ai_style.txt
 
 方法论与判定信号在实战中参考并整合了以下 MIT 开源项目的经验（详见 `references/aigc_signals_zh.md` 第十节）：
 
-- [qingshanliuci/cnki-aigc-skill](https://github.com/qingshanliuci/cnki-aigc-skill)
+- [qingshanliuci/cnki-aigc---skill](https://github.com/qingshanliuci/cnki-aigc---skill)
 - [redbaronyyyyy-eng/humanizer-zh-academic](https://github.com/redbaronyyyyy-eng/humanizer-zh-academic)
 - [ChHsiching/chhsich-thesis-aigc-skills](https://github.com/ChHsiching/chhsich-thesis-aigc-skills)

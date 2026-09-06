@@ -1,7 +1,7 @@
 # 知网 AIGC 检测特征与降率信号库（v2）
 
 > 本文件是 paper-mode 的判定与改写依据：检测时逐条核对，改写时按"做什么/不做什么"执行。
-> 来源：中文学术写作 AIGC 降率实战方法论（cnki-aigc-skill、humanizer-zh-academic、chhsich-thesis-aigc-skills 等开源实战经验，MIT），仅作估算参考，不等同知网/维普/Turnitin 官方结果。
+> 来源：中文学术写作 AIGC 降率实战方法论（[cnki-aigc---skill](https://github.com/qingshanliuci/cnki-aigc---skill)、[humanizer-zh-academic](https://github.com/redbaronyyyyy-eng/humanizer-zh-academic)、[chhsich-thesis-aigc-skills](https://github.com/ChHsiching/chhsich-thesis-aigc-skills) 等开源实战经验，MIT），仅作估算参考，不等同知网/维普/Turnitin 官方结果。
 
 ## 一、核心认知（必须牢记）
 
@@ -105,6 +105,6 @@ AIGC 检测器识别的**不是「谁写的」，而是「写作模式的统计�
 
 ## 十、来源（MIT 开源实践）
 
-- `qingshanliuci/cnki-aigc-skill`（知网 AIGC 降重，20.6%→10.1%）
-- `redbaronyyyyy-eng/humanizer-zh-academic`（中文学术去 AI 味，>50%→11%，16 模式）
-- `ChHsiching/chhsich-thesis-aigc-skills`（知网/维普/万方，48.9%→11.3%，预防性+修复工作流）
+- [qingshanliuci/cnki-aigc---skill](https://github.com/qingshanliuci/cnki-aigc---skill)（知网 AIGC 降重，20.6%→10.1%）
+- [redbaronyyyyy-eng/humanizer-zh-academic](https://github.com/redbaronyyyyy-eng/humanizer-zh-academic)（中文学术去 AI 味，>50%→11%，16 模式）
+- [ChHsiching/chhsich-thesis-aigc-skills](https://github.com/ChHsiching/chhsich-thesis-aigc-skills)（知网/维普/万方，48.9%→11.3%，预防性+修复工作流）
